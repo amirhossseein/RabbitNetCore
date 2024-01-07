@@ -18,6 +18,7 @@ namespace RabbitMqConsumer
 
         public RabbitMqReceiverService(IOptions<RabbitMqSettings> options, ILogger<RabbitMqReceiverService> logger)
         {
+
             _rabbitMqSettings = options.Value;
             _connectionFactory = new ConnectionFactory()
             {
