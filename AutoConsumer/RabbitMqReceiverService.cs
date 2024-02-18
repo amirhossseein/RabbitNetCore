@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Connections;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using RabbitMqConsumer;
 using System.Text;
 
-namespace RabbitMqConsumer
+namespace AutoConsumer
 {
     public class RabbitMqReceiverService : BackgroundService
     {
@@ -15,6 +15,7 @@ namespace RabbitMqConsumer
         private IModel _channel;
         private readonly RabbitMqSettings _rabbitMqSettings;
         private readonly ILogger<RabbitMqReceiverService> _logger;
+        private  EventingBasicConsumer _consumer;
 
         public RabbitMqReceiverService(IOptions<RabbitMqSettings> options, ILogger<RabbitMqReceiverService> logger)
         {
@@ -27,13 +28,18 @@ namespace RabbitMqConsumer
                 UserName = _rabbitMqSettings.UserName,
                 Password = _rabbitMqSettings.Password
             };
-            _connection = _connectionFactory.CreateConnection();
-            _channel = _connection.CreateModel();
 
+            CreateChannel();
             ConfigExchange();
             _logger = logger;
         }
 
+        private void CreateChannel() 
+        {
+            _connection = _connectionFactory.CreateConnection();
+            _channel = _connection.CreateModel();
+            _consumer = new EventingBasicConsumer(_channel);
+        }
         private void ConfigExchange()
         {
             if (_rabbitMqSettings.Exchanges.Any())
@@ -56,38 +62,40 @@ namespace RabbitMqConsumer
                 throw new Exception("RabbitMq Exchegs Not Defined.");
             }
         }
+      
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += (sender, e) =>
+
+            while (!stoppingToken.IsCancellationRequested) {
+                if (_channel.IsOpen == false)
+                {
+                    CreateChannel();
+                }
+            }
+           
+            _consumer.Received += (sender, e) =>
             {
                 var body = e.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 _logger.LogInformation($"Received: {message}");
 
-                _channel.BasicNack(e.DeliveryTag, false,true);
-            };
-
-            var Topicconsumer = new EventingBasicConsumer(_channel);
-            Topicconsumer.Received += (sender, e) =>
-            {
-                var body = e.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                _logger.LogInformation($"Received-------Topic: {message}");
-
                 _channel.BasicNack(e.DeliveryTag, false,false);
             };
 
-            _channel.BasicConsume("secondeQ", false, Topicconsumer);
-            _channel.BasicConsume("firstQ", false, consumer);
-
-            //while (!stoppingToken.IsCancellationRequested) 
+            //var Topicconsumer = new EventingBasicConsumer(_channel);
+            //Topicconsumer.Received += (sender, e) =>
             //{
-            //    await Task.Delay(1000,stoppingToken);
-            //}
+            //    var body = e.Body.ToArray();
+            //    var message = Encoding.UTF8.GetString(body);
+            //    _logger.LogInformation($"Received-------Topic: {message}");
 
-            //_channel.Close();
-            //_connection.Close();
+            //    _channel.BasicNack(e.DeliveryTag, false,false);
+            //};
+
+            //_channel.BasicConsume("secondeQ", false, Topicconsumer);
+            _channel.BasicConsume("firstQ", false, _consumer);
+
+            
         }
 
     }

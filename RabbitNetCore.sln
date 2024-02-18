@@ -5,7 +5,11 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitNetCore", "RabbitNetCore\RabbitNetCore.csproj", "{AC52A4A5-6503-4834-B232-0A14B996FDFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMqConsumer", "RabbitMqConsumer\RabbitMqConsumer.csproj", "{4A54B2D7-2075-4EEA-8581-4921CDE728D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqConsumer", "RabbitMqConsumer\RabbitMqConsumer.csproj", "{4A54B2D7-2075-4EEA-8581-4921CDE728D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoConsumer", "AutoConsumer\AutoConsumer.csproj", "{87D34ECC-66BF-4FBE-B4B4-BE06F3771F26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinServiceConsumer", "WinServiceConsumer\WinServiceConsumer.csproj", "{89F816FE-FBEE-4FA2-B7A4-A4A9AC7DC653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{4A54B2D7-2075-4EEA-8581-4921CDE728D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A54B2D7-2075-4EEA-8581-4921CDE728D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A54B2D7-2075-4EEA-8581-4921CDE728D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87D34ECC-66BF-4FBE-B4B4-BE06F3771F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87D34ECC-66BF-4FBE-B4B4-BE06F3771F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87D34ECC-66BF-4FBE-B4B4-BE06F3771F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87D34ECC-66BF-4FBE-B4B4-BE06F3771F26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89F816FE-FBEE-4FA2-B7A4-A4A9AC7DC653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F816FE-FBEE-4FA2-B7A4-A4A9AC7DC653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F816FE-FBEE-4FA2-B7A4-A4A9AC7DC653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F816FE-FBEE-4FA2-B7A4-A4A9AC7DC653}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -35,14 +35,14 @@ namespace RabbitNetCore
                 foreach (var exchange in _rabbitMqSettings.Exchanges)
                 {
                     _channel.ExchangeDeclare(exchange.Name, exchange.Type, true, false, null);
-                    //if (exchange.Queues.Any())
-                    //{
-                    //    foreach (var queue in exchange.Queues)
-                    //    {
-                    //        _channel.QueueDeclare(queue.Name, queue.Durable, queue.Exclusive, queue.AutoDelete, null);
-                    //        _channel.QueueBind(queue.Name, exchange.Name, queue.Key);
-                    //    }
-                    //}
+                    if (exchange.Queues.Any())
+                    {
+                        foreach (var queue in exchange.Queues)
+                        {
+                            _channel.QueueDeclare(queue.Name, queue.Durable, queue.Exclusive, queue.AutoDelete, null);
+                            _channel.QueueBind(queue.Name, exchange.Name, queue.Key);
+                        }
+                    }
                 }
             }
             else
