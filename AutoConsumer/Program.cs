@@ -17,6 +17,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
 
+
         services.AddHostedService<RabbitMqReceiverService>();
         services.Configure<RabbitMqSettings>(context.Configuration.GetSection("RabbitMqSettings"));
     })
