@@ -67,6 +67,10 @@ namespace RabbitNetCore
 
         }
 
+        public void test()
+        {
+
+        }
         public void Dispose()
         {
             _channel.Close();
