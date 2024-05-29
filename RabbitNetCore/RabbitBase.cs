@@ -69,7 +69,7 @@ namespace RabbitNetCore
 
         public void test()
         {
-            Console.WriteLine("");
+            Console.WriteLine("test3");
         }
         public void Dispose()
         {
